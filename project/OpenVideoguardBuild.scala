@@ -29,10 +29,14 @@ object OpenVideoguardBuild extends Build {
     routesGenerator := InjectedRoutesGenerator,
     resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases",
     libraryDependencies ++= Seq(
-      jdbc,
-      cache,
-      ws,
-      specs2 % Test
+//      jdbc,
+//      cache,
+//      ws,
+      specs2 % Test,
+      playSlick,
+      playSlickEvolutions,
+      h2
+
     )
   ).enablePlugins(PlayScala)
   .dependsOn(core)
