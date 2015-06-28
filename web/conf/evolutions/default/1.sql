@@ -1,7 +1,15 @@
 # --- !Ups
 
-create table "CAT" ("NAME" VARCHAR NOT NULL PRIMARY KEY,"COLOR" VARCHAR NOT NULL);
+CREATE TABLE "IMAGEREF" (
+  "PATH"       VARCHAR NOT NULL PRIMARY KEY,
+  "UPLOADTIME" TIMESTAMP  NOT NULL,
+  "YEAR"       INT     NOT NULL,
+  "MONTH"      INT     NOT NULL,
+  "DAY"        INT     NOT NULL,
+  "HOUR"       INT     NOT NULL
+);
+INSERT INTO "IMAGEREF" VALUES ('test1.jpg',  {ts '2015-06-01 18:00:00.00'} , 2015, 6, 1, 18);
 
 # --- !Downs
 
-drop table "CAT";
+DROP TABLE "IMAGEREF";
