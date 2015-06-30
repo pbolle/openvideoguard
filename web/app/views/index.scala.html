@@ -1,75 +1,22 @@
 @(cats: List[ImageRef]))
+@*
+* big 1280x720
+* smal 256x144
+*@
 
 @main("Welcome to Play") {
     <div class="row">
 
-        @for(c <- cats){
-            @c.path
-        }
 
         <div class="col-lg-12">
-            <h1 class="page-header">Thumbnail Gallery</h1>
+            <h1 class="page-header">Webcam Gallery</h1>
         </div>
-
-        <div class="col-lg-2 col-md-3 col-xs-4 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-2 col-md-3 col-xs-4 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-2 col-md-3 col-xs-4 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-2 col-md-3 col-xs-4 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-2 col-md-3 col-xs-4 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-2 col-md-3 col-xs-4 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-2 col-md-3 col-xs-4 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-2 col-md-3 col-xs-4 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-2 col-md-3 col-xs-4 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-2 col-md-3 col-xs-4 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-2 col-md-3 col-xs-4 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-2 col-md-3 col-xs-4 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
+        @for(c <- cats){
+            <div class="col-lg-2 col-md-3 col-xs-4 thumb">
+                <a class="thumbnail" href="#">
+                    <img class="img-responsive" src="/assets/images/testdata/@c.path" alt="">
+                </a>
+            </div>
+        }
     </div>
 }
