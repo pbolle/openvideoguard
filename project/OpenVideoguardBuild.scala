@@ -18,7 +18,7 @@ object OpenVideoguardBuild extends Build {
     settings = Seq(
       name := "openvideoguard-core",
       resolvers += "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases",
-      libraryDependencies ++= Seq(akkaActor, ftpServer, slf4jApi, scrimage, baticTranscoder)
+      libraryDependencies ++= Seq(akkaActor, ftpServer, slf4jApi, scrimage, baticTranscoder,playSlick)
     )
   )
 

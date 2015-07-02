@@ -1,10 +1,10 @@
 package controllers
 
+import org.openguard.core.tables.ImageRefTable
 import play.api.Play
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfig}
 import play.api.mvc.{Action, Controller}
 import slick.driver.JdbcProfile
-import tables.ImageRefTable
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 class Application extends Controller with ImageRefTable with HasDatabaseConfig[JdbcProfile] {

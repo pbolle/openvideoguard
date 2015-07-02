@@ -1,4 +1,4 @@
-package models
+package org.openguard.core.models
 
 import java.util.Date
 

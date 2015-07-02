@@ -1,9 +1,10 @@
-package tables
+package org.openguard.core.tables
 
 import java.sql.Timestamp
 import java.util.Date
 
-import models.ImageRef
+import org.openguard.core.models.ImageRef
+
 import slick.driver.JdbcProfile
 
 trait ImageRefTable {
