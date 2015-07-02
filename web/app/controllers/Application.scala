@@ -1,21 +1,14 @@
 package controllers
 
-import org.openguard.core.tables.ImageRefTable
-import play.api.Play
-import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfig}
-import play.api.mvc.{Action, Controller}
-import slick.driver.JdbcProfile
+import org.openguard.core.dao.ImageRefDAO
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import play.api.mvc.{Action, Controller}
 
-class Application extends Controller with ImageRefTable with HasDatabaseConfig[JdbcProfile] {
-  val dbConfig = DatabaseConfigProvider.get[JdbcProfile](Play.current)
-  import driver.api._
-  //create an instance of the table
-  val Cats = TableQuery[ImageRefs] //see a way to architect your app in the computers-database sample
+class Application extends Controller  {
+  def imageRefDAO = new ImageRefDAO
 
   def index = Action.async {
-    db.run(Cats.result).map(res => Ok(views.html.index(res.toList)))
+    imageRefDAO.all().map(res => Ok(views.html.index(res.toList)))
   }
-
 
 }

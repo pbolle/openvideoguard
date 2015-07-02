@@ -1,18 +1,29 @@
-package org.openguard.core.tables
+package org.openguard.core.dao
 
 import java.sql.Timestamp
 import java.util.Date
 
 import org.openguard.core.models.ImageRef
-
+import play.api.Play
+import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfig}
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import slick.driver.JdbcProfile
+import slick.lifted.TableQuery
 
-trait ImageRefTable {
-  protected val driver: JdbcProfile
+import scala.concurrent.Future
+
+class ImageRefDAO extends HasDatabaseConfig[JdbcProfile] {
+  protected val dbConfig = DatabaseConfigProvider.get[JdbcProfile](Play.current)
+  private val ImageRefs = TableQuery[ImageRefTable]
 
   import driver.api._
 
-  class ImageRefs(tag: Tag) extends Table[ImageRef](tag, "IMAGEREF") {
+  def all(): Future[List[ImageRef]] = db.run(ImageRefs.result).map(_.toList)
+
+  /**
+   * Table Definition
+   */
+  private class ImageRefTable(tag: Tag) extends Table[ImageRef](tag, "IMAGEREF") {
     implicit val dateColumnType =
       MappedColumnType.base[Date, Timestamp](
         d => new Timestamp(d.getTime),
