@@ -8,7 +8,7 @@ class Application extends Controller  {
   def imageRefDAO = new ImageRefDAO
 
   def index = Action.async {
-    imageRefDAO.all().map(res => Ok(views.html.index(res.toList)))
+    imageRefDAO.recent().map(res => Ok(views.html.index(res.toList)))
   }
 
 }

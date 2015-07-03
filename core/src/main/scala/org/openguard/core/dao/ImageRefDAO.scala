@@ -15,10 +15,13 @@ import scala.concurrent.Future
 class ImageRefDAO extends HasDatabaseConfig[JdbcProfile] {
   protected val dbConfig = DatabaseConfigProvider.get[JdbcProfile](Play.current)
   private val ImageRefs = TableQuery[ImageRefTable]
+  private val PAGE_SIZE = 20
 
   import driver.api._
 
   def all(): Future[List[ImageRef]] = db.run(ImageRefs.result).map(_.toList)
+
+  def recent(): Future[List[ImageRef]] = db.run(ImageRefs.take(PAGE_SIZE).result).map(_.toList)
 
   /**
    * Table Definition
