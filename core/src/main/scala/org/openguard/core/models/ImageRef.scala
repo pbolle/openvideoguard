@@ -1,5 +1,5 @@
 package org.openguard.core.models
 
-import java.util.Date
+import java.sql.Timestamp
 
-case class ImageRef(path: String, uploadTime: Date, year: Int, month: Int, day: Int, hour: Int)
+case class ImageRef(path: String, uploadTime: Timestamp, year: Int, month: Int, day: Int, hour: Int)

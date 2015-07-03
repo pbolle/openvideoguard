@@ -13,6 +13,10 @@
     This configures the log level to log at for a package and its children packages.
   -->
   <logger name="play" level="INFO" />
+  <logger name="slick.compiler.QueryCompilerBenchmark" level="DEBUG" />
+  <logger name="slick.jdbc.JdbcBackend.statement" level="DEBUG" />
+  <logger name="slick.jdbc.StatementInvoker.result" level="DEBUG" />
+
   <logger name="application" level="DEBUG" />
 
   <root level="ERROR">
