@@ -1,5 +1,5 @@
 @import org.openguard.core.models.ImageRef
-@(cats: List[ImageRef]))
+@(images: List[ImageRef],count: Long)
 @*
 * big 1280x720
 * smal 256x144
@@ -10,9 +10,9 @@
 
 
         <div class="col-lg-12">
-            <h1 class="page-header">Webcam Gallery</h1>
+            <h1 class="page-header">Gallery @count Image</h1>
         </div>
-        @for(c <- cats){
+        @for(c <- images){
             <div class="col-lg-2 col-md-3 col-xs-4 thumb">
                 <a class="thumbnail" href="#">
                     <img class="img-responsive" src="/assets/images/testdata/@c.path" alt="">
@@ -20,4 +20,28 @@
             </div>
         }
     </div>
+    @*
+    <div class="row">
+        <nav>
+            <ul class="pagination">
+                <li>
+                    <a href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li>
+                    <a href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    *@
+
 }

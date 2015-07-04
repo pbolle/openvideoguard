@@ -20,7 +20,14 @@ class ImageRefDAO extends HasDatabaseConfig[JdbcProfile] {
 
 
   def all(): Future[List[ImageRef]] = db.run(ImageRefs.result).map(_.toList)
-  def recent(): Future[List[ImageRef]] = db.run(ImageRefs.sortBy(_.uploadTime.desc).drop(0).take(PAGE_SIZE).result).map(_.toList)
+
+  def recent(page: Int): Future[List[ImageRef]] = {
+    db.run(ImageRefs.sortBy(_.uploadTime.desc).drop(page * PAGE_SIZE).take(PAGE_SIZE).result).map(_.toList)
+  }
+
+  def count(): Future[Long] = {
+    db.run(ImageRefs.length.result).map(_.toLong)
+  }
 
   /**
    * Table Definition
