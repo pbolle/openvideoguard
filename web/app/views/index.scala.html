@@ -1,11 +1,12 @@
 @import org.openguard.core.models.ImageRef
-@(images: List[ImageRef],count: Long)
+@(images: List[ImageRef],count: Long,page:Int, pageLength:Int))
 @*
 * big 1280x720
 * smal 256x144
 *@
 
 @main("Welcome to Play") {
+    @includes.paginate(page, pageLength, count, routes.Application.index(_))
     <div class="row">
 
 
@@ -20,28 +21,5 @@
             </div>
         }
     </div>
-    @*
-    <div class="row">
-        <nav>
-            <ul class="pagination">
-                <li>
-                    <a href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li>
-                    <a href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-    *@
-
+    @includes.paginate(page, pageLength, count, routes.Application.index(_))
 }
