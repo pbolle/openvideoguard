@@ -1,5 +1,5 @@
 @import org.openguard.core.models.ImageRef
-@(images: List[ImageRef],count: Long,page:Int, pageLength:Int))
+@(images: List[ImageRef],count: Long,page:Int, pageLength:Int)
 @*
 * big 1280x720
 * smal 256x144
@@ -11,11 +11,11 @@
 
 
         <div class="col-lg-12">
-            <h1 class="page-header">Gallery @count Image</h1>
+            <h1 class="page-header">Gallery @count Image @images.head.uploadTime.format("dd MMMM yyyy HH:mm:ss") to @images.last.uploadTime.format("dd MMMM yyyy HH:mm:ss") </h1>
         </div>
         @for(c <- images){
             <div class="col-lg-2 col-md-3 col-xs-4 thumb">
-                <a class="thumbnail" href="#">
+                <a class="thumbnail" href="/assets/images/testdata/@c.path" data-title="@c.uploadTime.format("dd MMMM yyyy HH:mm:ss")" data-lightbox="roadtrip">
                     <img class="img-responsive" src="/assets/images/testdata/@c.path" alt="">
                 </a>
             </div>
