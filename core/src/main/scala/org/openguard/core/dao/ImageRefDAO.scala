@@ -34,7 +34,9 @@ class ImageRefDAO extends HasDatabaseConfig[JdbcProfile] {
   private class ImageRefTable(tag: Tag) extends Table[ImageRef](tag, "IMAGEREF") {
 
 
-    def path = column[String]("PATH", O.PrimaryKey)
+    def imgPath = column[String]("IMGPATH", O.PrimaryKey)
+
+    def thumbnailPath = column[String]("TNPATH")
 
     def uploadTime = column[Timestamp]("UPLOADTIME")
 
@@ -46,7 +48,7 @@ class ImageRefDAO extends HasDatabaseConfig[JdbcProfile] {
 
     def hour = column[Int]("HOUR")
 
-    def * = (path, uploadTime, year, month, day, hour) <>(ImageRef.tupled, ImageRef.unapply _)
+    def * = (imgPath, thumbnailPath, uploadTime, year, month, day, hour) <> (ImageRef.tupled, ImageRef.unapply _)
   }
 
 }

@@ -15,8 +15,8 @@
         </div>
         @for(c <- images){
             <div class="col-lg-2 col-md-3 col-xs-4 thumb">
-                <a class="thumbnail" href="/assets/images/testdata/@c.path" data-title="@c.uploadTime.format("dd MMMM yyyy HH:mm:ss")" data-lightbox="roadtrip">
-                    <img class="img-responsive" src="/assets/images/testdata/@c.path" alt="">
+                <a class="thumbnail" href="/assets/images/testdata/@c.imgPath" data-title="@c.uploadTime.format("dd MMMM yyyy HH:mm:ss")" data-lightbox="roadtrip">
+                    <img class="img-responsive" src="/assets/images/testdata/@c.thumbnailPath" alt="">
                 </a>
             </div>
         }
