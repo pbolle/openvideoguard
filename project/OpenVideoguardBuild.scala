@@ -12,6 +12,14 @@ object OpenVideoguardBuild extends Build {
   val version = "0.1-SNAPSHOT"
   val scalaVersion = "2.11.6"
 
+  lazy val openvideoguard = Project("openvideoguard", file("."))
+    .aggregate(web)
+    .settings(
+      run := {
+        (run in web in Compile).evaluated
+      }
+    )
+
   lazy val core = Project(
     id = "core",
     base = file("core"),
@@ -22,16 +30,11 @@ object OpenVideoguardBuild extends Build {
     )
   )
 
-
-  //  routesGenerator := InjectedRoutesGenerator
   lazy val web = (project in file("web")).settings(
     name := "openvideoguard-web",
     routesGenerator := InjectedRoutesGenerator,
     resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases",
     libraryDependencies ++= Seq(
-//      jdbc,
-//      cache,
-//      ws,
       specs2 % Test,
       playSlick,
       playSlickEvolutions,
@@ -41,5 +44,4 @@ object OpenVideoguardBuild extends Build {
   ).enablePlugins(PlayScala)
   .dependsOn(core)
 
-  mainClass in(Compile, run) := Some("org.openguard.core.ImageFtplet")
 }
