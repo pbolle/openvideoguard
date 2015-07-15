@@ -17,7 +17,6 @@ class ImageRefDAO extends HasDatabaseConfig[JdbcProfile] {
 
   import driver.api._
 
-
   def all(): Future[List[ImageRef]] = db.run(ImageRefs.result).map(_.toList)
 
   def recent(page: Int, pageSize: Long): Future[List[ImageRef]] = {

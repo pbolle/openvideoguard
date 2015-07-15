@@ -6,7 +6,6 @@ import org.apache.ftpserver.listener.ListenerFactory
 import org.apache.ftpserver.usermanager.{ClearTextPasswordEncryptor, PropertiesUserManagerFactory}
 import org.apache.ftpserver.{FtpServer, FtpServerFactory}
 import org.openguard.core.ImageFtplet
-import org.openguard.core.OVGFtpServer._
 import play.api.{Application, GlobalSettings}
 
 object Global extends GlobalSettings {
