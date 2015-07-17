@@ -1,3 +1,5 @@
+package org.openguard.core
+
 import java.util.{HashMap, Map}
 import javax.inject.{Inject, Provider, Singleton}
 
@@ -6,7 +8,6 @@ import org.apache.ftpserver.ftplet.{Ftplet, UserManager}
 import org.apache.ftpserver.listener.ListenerFactory
 import org.apache.ftpserver.usermanager.{ClearTextPasswordEncryptor, PropertiesUserManagerFactory}
 import org.apache.ftpserver.{FtpServer, FtpServerFactory}
-import org.openguard.core.ImageFtplet
 import play.api.db.DBApi
 import play.api.inject.{Binding, Module}
 import play.api.{Configuration, Environment}

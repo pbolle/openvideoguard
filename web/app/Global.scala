@@ -1,3 +1,4 @@
+import org.openguard.core.FTPApplication
 import play.api.{Application, GlobalSettings}
 
 object Global extends GlobalSettings {
