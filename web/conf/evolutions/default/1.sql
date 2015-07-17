@@ -35,6 +35,21 @@ INSERT INTO "IMAGEREF" VALUES ('day2/256x144-10.png', 'day2/256x144-10.png' , {t
 INSERT INTO "IMAGEREF" VALUES ('day2/256x144-11.png', 'day2/256x144-11.png', {ts '2015-06-02 18:00:00.00'} , 2015, 6, 2, 18);
 INSERT INTO "IMAGEREF" VALUES ('day2/256x144-12.png', 'day2/256x144-12.png', {ts '2015-06-02 19:00:00.00'} , 2015, 6, 2, 19);
 
+
+CREATE TABLE FTP_USER (
+  userid VARCHAR(64) NOT NULL PRIMARY KEY,
+  userpassword VARCHAR(64),
+  homedirectory VARCHAR(128) NOT NULL,
+  enableflag BOOLEAN DEFAULT TRUE,
+  writepermission BOOLEAN DEFAULT FALSE,
+  idletime INT DEFAULT 0,
+  uploadrate INT DEFAULT 0,
+  downloadrate INT DEFAULT 0,
+  maxloginnumber INT DEFAULT 0,
+  maxloginperip INT DEFAULT 0
+);
+
+INSERT INTO "FTP_USER" VALUES ('test','test','/home/pbolle/temp/ftproot',TRUE,TRUE,0,0,0,0,0);
 # --- !Downs
 
 DROP TABLE "IMAGEREF";

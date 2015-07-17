@@ -4,9 +4,10 @@ import java.util.{HashMap, Map}
 import javax.inject.{Inject, Provider, Singleton}
 
 import akka.actor.ActorSystem
-import org.apache.ftpserver.ftplet.{Ftplet, UserManager}
+import org.apache.ftpserver.ftplet.Ftplet
 import org.apache.ftpserver.listener.ListenerFactory
-import org.apache.ftpserver.usermanager.{ClearTextPasswordEncryptor, PropertiesUserManagerFactory}
+import org.apache.ftpserver.usermanager.ClearTextPasswordEncryptor
+import org.apache.ftpserver.usermanager.impl.DbUserManager
 import org.apache.ftpserver.{FtpServer, FtpServerFactory}
 import play.api.db.DBApi
 import play.api.inject.{Binding, Module}
@@ -44,11 +45,21 @@ object FTPApplication {
 
     serverFactory.addListener("default", listenerFactory.createListener())
 
-    val userManagerFactory: PropertiesUserManagerFactory = new PropertiesUserManagerFactory()
+    //    val userManagerFactory: PropertiesUserManagerFactory = new PropertiesUserManagerFactory()
 
-    userManagerFactory.setUrl(getClass.getResource("/userManager.properties"))
-    userManagerFactory.setPasswordEncryptor(new ClearTextPasswordEncryptor())
-    val userManager: UserManager = userManagerFactory.createUserManager()
+    //    userManagerFactory.setUrl(getClass.getResource("/userManager.properties"))
+    //    userManagerFactory.setPasswordEncryptor(new ClearTextPasswordEncryptor())
+    //    val userManager: UserManager = userManagerFactory.createUserManager()
+    val selectAllStmt = "SELECT userid FROM FTP_USER ORDER BY userid"
+    val selectUserStmt = "SELECT userid, userpassword, homedirectory, enableflag, writepermission, idletime, uploadrate, downloadrate, maxloginnumber, maxloginperip FROM FTP_USER WHERE userid = '{userid}'"
+    val insertUserStmt = "INSERT INTO FTP_USER (userid, userpassword, homedirectory, enableflag, writepermission, idletime, uploadrate,  downloadrate) VALUES ('{userid}', '{userpassword}', '{homedirectory}',  {enableflag}, {writepermission}, {idletime}, {uploadrate}, {downloadrate})"
+    val updateUserStmt = "UPDATE FTP_USER SET userpassword='{userpassword}',homedirectory='{homedirectory}',enableflag={enableflag},writepermission={writepermission},idletime={idletime},uploadrate={uploadrate},downloadrate={downloadrate} WHERE userid='{userid}"
+    val deleteUserStmt = "DELETE FROM FTP_USER WHERE userid = '{userid}'"
+    val authenticateStmt = "SELECT userpassword from FTP_USER WHERE userid='{userid}'"
+    val isAdminStmt = "SELECT userid FROM FTP_USER WHERE userid='{userid}' AND userid='admin'"
+    var adminName = "admin"
+
+    val userManager = new DbUserManager(dbApi.database("default").dataSource, selectAllStmt, selectUserStmt, insertUserStmt, updateUserStmt, deleteUserStmt, authenticateStmt, isAdminStmt, new ClearTextPasswordEncryptor(), adminName)
 
     // init ftplet
     val ftplets: Map[String, Ftplet] = new HashMap[String, Ftplet]
