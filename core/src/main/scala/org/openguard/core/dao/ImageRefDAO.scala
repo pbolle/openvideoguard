@@ -27,6 +27,10 @@ class ImageRefDAO extends HasDatabaseConfig[JdbcProfile] {
     db.run(ImageRefs.length.result).map(_.toLong)
   }
 
+  def insert(imageRef : ImageRef) = {
+    db.run(ImageRefs.insertOrUpdate(imageRef))
+  }
+
   /**
    * Table Definition
    */
