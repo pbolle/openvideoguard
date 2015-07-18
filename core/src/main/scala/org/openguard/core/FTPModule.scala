@@ -40,7 +40,7 @@ object FTPApplication {
     val listenerFactory: ListenerFactory = new ListenerFactory()
 
     listenerFactory.setPort(2221);
-    listenerFactory.setServerAddress("localhost")
+    listenerFactory.setServerAddress("0.0.0.0")
     listenerFactory.setImplicitSsl(false);
 
     serverFactory.addListener("default", listenerFactory.createListener())
