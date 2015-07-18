@@ -29,8 +29,6 @@ object FTPApplication {
   var started = false
 
   def start(): Unit = {
-    println("dbApi" + dbApi.database("default"))
-
     // init AKKA
     implicit val actorsystem = ActorSystem("openvideoguard")
 
