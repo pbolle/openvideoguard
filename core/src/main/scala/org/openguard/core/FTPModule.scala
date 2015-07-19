@@ -27,6 +27,7 @@ class FTPModule() extends Module {
 object FTPApplication {
   var dbApi: DBApi = null
   var started = false
+  var server: FtpServer = null
 
   def start(): Unit = {
     // init AKKA
@@ -67,9 +68,12 @@ object FTPApplication {
     serverFactory.setUserManager(userManager)
 
     // start the server
-    val server: FtpServer = serverFactory.createServer()
+    server = serverFactory.createServer()
     server.start()
+  }
 
+  def stop() {
+    server.stop()
   }
 }
 
