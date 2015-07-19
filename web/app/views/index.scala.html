@@ -16,7 +16,8 @@
 
 
             <div class="col-lg-12">
-                <h1 class="page-header">Gallery @count Image @images.head.uploadTime.format("dd MMMM yyyy HH:mm:ss") to @images.last.uploadTime.format("dd MMMM yyyy HH:mm:ss") </h1>
+                <h4 class="page-header">@images.head.uploadTime.format("dd.MM.yyyy HH:mm") to @images.last.uploadTime.format("dd.MM.yyyy HH:mm") </h4>
+                <p>@count Images</p>
             </div>
             @for(c <- images){
                 <div class="col-lg-2 col-md-3 col-xs-4 thumb">
