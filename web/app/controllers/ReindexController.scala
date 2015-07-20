@@ -1,12 +1,18 @@
 package controllers
 
-import org.openguard.core.dao.ImageRefDAO
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.mvc.{Result, Action, Controller}
+import javax.inject.Inject
 
-class ReindexController extends Controller {
+import akka.actor.{ActorSystem, Props}
+import org.openguard.core.actor.Reimport
+import play.api.Play
+import play.api.Play.current
+import play.api.mvc.{Action, Controller}
+
+class ReindexController @Inject()(system: ActorSystem) extends Controller {
 
   def index() = Action {
+    var reindexActor = system.actorOf(Props[Reimport])
+    reindexActor ! Play.configuration.getString("ftp.homedirectory").getOrElse("~/")
     Redirect(controllers.routes.ImageController.index(1))
   }
 
