@@ -45,6 +45,8 @@ class Resource extends AssetsBuilder(LazyHttpErrorHandler) {
         (stream.available, Enumerator.fromStream(stream))
       } catch {
         case _: Throwable => (-1, Enumerator[Array[Byte]]())
+      } finally {
+        stream.close()
       }
     }
     if (length == -1) {
