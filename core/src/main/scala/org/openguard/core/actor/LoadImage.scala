@@ -2,6 +2,7 @@ package org.openguard.core.actor
 
 import java.io.File
 import java.sql.Timestamp
+import java.time.format.DateTimeFormatter
 import java.time.{LocalDate, LocalTime}
 import java.util.Date
 
@@ -21,6 +22,7 @@ class LoadImage extends Actor {
   val thumbnailWidth: Int = Play.configuration.getInt("ovg.img.thumbnail.width").getOrElse(256)
   val thumbnailHeight: Int = Play.configuration.getInt("ovg.img.thumbnail.heigth").getOrElse(144)
   var homeDir = Play.configuration.getString("ftp.homedirectory").getOrElse("~/")
+  val formatDay = DateTimeFormatter.ofPattern("hh:mm:ss.SSS")
 
   def receive = {
     case imagePath: String => {
@@ -40,15 +42,16 @@ class LoadImage extends Actor {
         imgDir.mkdirs
       }
       val now = LocalTime.now
+      val timeStamp = formatDay.format(now);
 
       // write to file
-      thumbnailImage.output(imgDir.getAbsolutePath + File.separator + "sm" + now + ".png")
-      image.output(imgDir.getAbsolutePath + File.separator + now + ".png")
+      thumbnailImage.output(imgDir.getAbsolutePath + File.separator + "sm" + timeStamp + ".png")
+      image.output(imgDir.getAbsolutePath + File.separator + timeStamp + ".png")
 
       // insert in db
       var imageRef = new  ImageRef(
-        localDate + File.separator + now + ".png",
-        localDate + File.separator +"sm"+ now + ".png",
+        localDate + File.separator + timeStamp + ".png",
+        localDate + File.separator +"sm"+ timeStamp + ".png",
         new Timestamp((new Date()).getTime),
         localDate.getYear,
         localDate.getMonthValue,
