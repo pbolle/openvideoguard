@@ -1,11 +1,11 @@
 package org.openguard.core.actor
 
-import java.io.File
+import java.io.{FileInputStream, File}
 import java.sql.Timestamp
 import java.time.format.DateTimeFormatter
 import java.time.{LocalDate, LocalTime}
 import java.util.Date
-
+import scala.concurrent.duration._
 import akka.actor.{Actor, Props}
 import com.sksamuel.scrimage.Image
 import org.openguard.core.Photo
@@ -13,6 +13,7 @@ import org.openguard.core.dao.ImageRefDAO
 import org.openguard.core.models.ImageRef
 import play.api.Play
 import play.api.Play.current
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 /**
  * Created by pbolle on 19.06.15.
@@ -26,13 +27,17 @@ class LoadImage extends Actor {
 
   def receive = {
     case imagePath: String => {
-      val image = Image.apply(new File(imagePath))
-      println("image " + image)
+      val stream = new FileInputStream(imagePath)
+      val image = Image.fromStream(stream)
+      stream.close()
+
       // crate image object with cam + time + name
       val photo = new Photo(image, imagePath)
       // move to archive
       var archiveActor = context.actorOf(Props[Archive])
-      archiveActor ! photo
+      //archiveActor ! photo
+      context.system.scheduler.scheduleOnce(5 minutes,archiveActor,photo)
+
       // create thumbnail
       val thumbnailImage = image.fit(thumbnailWidth, thumbnailHeight)
 
