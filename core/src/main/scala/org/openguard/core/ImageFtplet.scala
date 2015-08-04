@@ -2,7 +2,7 @@ package org.openguard.core
 
 import akka.actor.{ActorSystem, Props}
 import org.apache.ftpserver.ftplet.{DefaultFtplet, FtpRequest, FtpSession, FtpletResult}
-import org.openguard.core.actor.LoadImage
+import org.openguard.core.actor.{LoadVideo, LoadImage}
 import play.api.Play
 import play.api.Play.current
 
@@ -28,7 +28,8 @@ class ImageFtplet(implicit actorsystem: ActorSystem) extends DefaultFtplet {
       val loadImage = actorsystem.actorOf(Props[LoadImage])
       loadImage ! session.getUser.getHomeDirectory + "/" + request.getArgument
     } else if (videoExtensions.contains(extension)) {
-      println("video")
+      val loadVideo = actorsystem.actorOf(Props[LoadVideo])
+      loadVideo ! session.getUser.getHomeDirectory + "/" + request.getArgument
     }
 
 
