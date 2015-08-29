@@ -3,13 +3,13 @@ package org.openguard.core.actor
 import java.io.File
 import java.sql.Timestamp
 import java.time.format.DateTimeFormatter
-import java.time.{LocalTime, LocalDate}
+import java.time.{LocalDate, LocalTime}
 import java.util.Date
 
 import akka.actor.Actor
 import org.apache.commons.io.FileUtils
 import org.openguard.core.dao.ImageRefDAO
-import org.openguard.core.models.ImageRef
+import org.openguard.core.models._
 import play.api.Play
 import play.api.Play.current
 
@@ -21,6 +21,7 @@ import scala.sys.process._
  */
 class LoadVideo extends Actor {
   def imageRefDAO = new ImageRefDAO
+
   var homeDir = Play.configuration.getString("ftp.homedirectory").getOrElse("~/")
   var tempDir = Play.configuration.getString("ovg.tempDir").getOrElse("~/temp")
   val formatDay = DateTimeFormatter.ofPattern("hh:mm:ss.SSS")
@@ -40,7 +41,7 @@ class LoadVideo extends Actor {
       val animatedGifName = "lva" + System.currentTimeMillis() + ".gif"
       val toAnimatedGifCommand = "convert -delay 2 -loop 0 " + tempImgDir + File.separator + "*.png -scale 256x144 " + tempImgDir + File.separator + animatedGifName
       // TODO check exitcode
-      val toAnimatedGifExitcode =  toAnimatedGifCommand !
+      val toAnimatedGifExitcode = toAnimatedGifCommand !
 
       // TODO remove duplicate code in LoadImage
       val localDate = LocalDate.now
@@ -54,20 +55,21 @@ class LoadVideo extends Actor {
       // copy to targed
       val videoType = videoPath.substring(videoPath.lastIndexOf("."))
       val targedGif = imgDir.getAbsolutePath + File.separator + "sm" + timeStamp + ".gif"
-      val targetVideo = imgDir.getAbsolutePath + File.separator + timeStamp +videoType
+      val targetVideo = imgDir.getAbsolutePath + File.separator + timeStamp + videoType
 
-      FileUtils.copyFile(new File( tempImgDir + File.separator + animatedGifName),new File(targedGif))
-      FileUtils.copyFile(new File( videoPath),new File(targetVideo))
+      FileUtils.copyFile(new File(tempImgDir + File.separator + animatedGifName), new File(targedGif))
+      FileUtils.copyFile(new File(videoPath), new File(targetVideo))
 
       // insert in db
-      var imageRef = new  ImageRef(
+      var imageRef = new ImageRef(
         localDate + File.separator + timeStamp + videoType,
-        localDate + File.separator +"sm"+ timeStamp + ".gif",
+        localDate + File.separator + "sm" + timeStamp + ".gif",
         new Timestamp((new Date()).getTime),
         localDate.getYear,
         localDate.getMonthValue,
         localDate.getDayOfMonth,
-        now.getHour
+        now.getHour,
+        VIDEO
       )
       imageRefDAO.insert(imageRef)
     }

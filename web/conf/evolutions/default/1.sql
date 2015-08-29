@@ -7,7 +7,8 @@ CREATE TABLE "IMAGEREF" (
   "YEAR"       INT     NOT NULL,
   "MONTH"      INT     NOT NULL,
   "DAY"        INT     NOT NULL,
-  "HOUR"       INT     NOT NULL
+  "HOUR"       INT     NOT NULL,
+  "MEDIATYPE"  VARCHAR NOT NULL,
 );
 
 

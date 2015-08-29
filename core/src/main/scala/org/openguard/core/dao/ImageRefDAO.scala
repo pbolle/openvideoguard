@@ -27,7 +27,7 @@ class ImageRefDAO extends HasDatabaseConfig[JdbcProfile] {
     db.run(ImageRefs.length.result).map(_.toLong)
   }
 
-  def insert(imageRef : ImageRef) = {
+  def insert(imageRef: ImageRef) = {
     db.run(ImageRefs.insertOrUpdate(imageRef))
   }
 
@@ -51,7 +51,9 @@ class ImageRefDAO extends HasDatabaseConfig[JdbcProfile] {
 
     def hour = column[Int]("HOUR")
 
-    def * = (imgPath, thumbnailPath, uploadTime, year, month, day, hour) <> (ImageRef.tupled, ImageRef.unapply _)
+    def mediatype = column[String]("MEDIATYPE")
+
+    def * = (imgPath, thumbnailPath, uploadTime, year, month, day, hour, mediatype) <>(ImageRef.tupled, ImageRef.unapply _)
   }
 
 }

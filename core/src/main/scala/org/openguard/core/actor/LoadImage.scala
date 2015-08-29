@@ -1,25 +1,28 @@
 package org.openguard.core.actor
 
-import java.io.{FileInputStream, File}
+import java.io.{File, FileInputStream}
 import java.sql.Timestamp
 import java.time.format.DateTimeFormatter
 import java.time.{LocalDate, LocalTime}
 import java.util.Date
-import scala.concurrent.duration._
+
 import akka.actor.{Actor, Props}
 import com.sksamuel.scrimage.Image
 import org.openguard.core.Photo
 import org.openguard.core.dao.ImageRefDAO
-import org.openguard.core.models.ImageRef
+import org.openguard.core.models._
 import play.api.Play
 import play.api.Play.current
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
+
+import scala.concurrent.duration._
 
 /**
  * Created by pbolle on 19.06.15.
  */
 class LoadImage extends Actor {
   def imageRefDAO = new ImageRefDAO
+
   val thumbnailWidth: Int = Play.configuration.getInt("ovg.img.thumbnail.width").getOrElse(256)
   val thumbnailHeight: Int = Play.configuration.getInt("ovg.img.thumbnail.heigth").getOrElse(144)
   var homeDir = Play.configuration.getString("ftp.homedirectory").getOrElse("~/")
@@ -36,7 +39,7 @@ class LoadImage extends Actor {
       // move to archive
       var archiveActor = context.actorOf(Props[Archive])
       //archiveActor ! photo
-      context.system.scheduler.scheduleOnce(5 minutes,archiveActor,photo)
+      context.system.scheduler.scheduleOnce(5 minutes, archiveActor, photo)
 
       // create thumbnail
       val thumbnailImage = image.fit(thumbnailWidth, thumbnailHeight)
@@ -54,14 +57,15 @@ class LoadImage extends Actor {
       image.output(imgDir.getAbsolutePath + File.separator + timeStamp + ".png")
 
       // insert in db
-      var imageRef = new  ImageRef(
+      var imageRef = new ImageRef(
         localDate + File.separator + timeStamp + ".png",
-        localDate + File.separator +"sm"+ timeStamp + ".png",
+        localDate + File.separator + "sm" + timeStamp + ".png",
         new Timestamp((new Date()).getTime),
         localDate.getYear,
         localDate.getMonthValue,
         localDate.getDayOfMonth,
-        now.getHour
+        now.getHour,
+        IMAGE
       )
       imageRefDAO.insert(imageRef)
       // clean up old data
