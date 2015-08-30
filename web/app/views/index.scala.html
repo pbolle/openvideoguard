@@ -1,4 +1,4 @@
-@import org.openguard.core.models.ImageRef
+@import org.openguard.core.models._
 @(images: List[ImageRef],count: Long,page:Int, pageLength:Int)
 @*
 * big 1280x720
@@ -8,7 +8,7 @@
 @main("Open Videoguard Index") {
     @if(images.isEmpty){
         <div class="col-lg-12">
-            <h1 class="page-header"> no Image found </h1>
+            <h1 class="page-header"> no event found </h1>
         </div>
     } else {
         @includes.paginate(page, pageLength, count, routes.ImageController.index(_))
@@ -37,7 +37,7 @@
                         </ul>
                     </div><!-- /btn-group -->
                     <div class="btn-group pull-right">
-                        <p>@count Images</p>
+                        <p>@count events</p>
                     </div>
                 </div>
 
@@ -45,9 +45,13 @@
             </div>
             @for(c <- images){
                 <div class="col-lg-2 col-md-3 col-xs-4 thumb">
-                    <a class="thumbnail" href="/resources/@c.imgPath" data-title="@c.uploadTime.format("dd MMMM yyyy HH:mm:ss")" data-lightbox="roadtrip">
-                        <img class="img-responsive" src="/resources/@c.thumbnailPath" alt="">
-                    </a>
+                    @if(c.mediatype == VIDEO) {
+                        <img class="img-responsive thumbnail" src="/resources/@c.thumbnailPath" alt="">
+                    } else {
+                        <a class="thumbnail" href="/resources/@c.imgPath" data-title="@c.uploadTime.format("dd MMMM yyyy HH:mm:ss")" data-lightbox="roadtrip">
+                            <img class="img-responsive" src="/resources/@c.thumbnailPath" alt="">
+                        </a>
+                    }
                 </div>
             }
         </div>
