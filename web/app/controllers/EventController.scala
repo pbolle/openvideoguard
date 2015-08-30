@@ -4,7 +4,7 @@ import org.openguard.core.dao.ImageRefDAO
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc.{Action, Controller}
 
-class ImageController extends Controller {
+class EventController extends Controller {
   private val PAGE_SIZE = 18
 
   def imageRefDAO = new ImageRefDAO

@@ -3,8 +3,8 @@
 # ~~~~
 
 # Home page
-GET     /                               controllers.ImageController.index(page:Int=1)
-GET     /image/list/:page               controllers.ImageController.index(page:Int)
+GET     /                               controllers.EventController.index(page:Int=1)
+GET     /events/list/:page              controllers.EventController.index(page:Int)
 GET     /reindex                        controllers.ReindexController.index()
 
 # Map static resources from the /public folder to the /assets URL path

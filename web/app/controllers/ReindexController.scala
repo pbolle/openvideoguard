@@ -13,7 +13,7 @@ class ReindexController @Inject()(system: ActorSystem) extends Controller {
   def index() = Action {
     var reindexActor = system.actorOf(Props[Reimport])
     reindexActor ! Play.configuration.getString("ftp.homedirectory").getOrElse("~/")
-    Redirect(controllers.routes.ImageController.index(1))
+    Redirect(controllers.routes.EventController.index(1))
   }
 
 }

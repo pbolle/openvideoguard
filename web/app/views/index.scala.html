@@ -11,7 +11,7 @@
             <h1 class="page-header"> no event found </h1>
         </div>
     } else {
-        @includes.paginate(page, pageLength, count, routes.ImageController.index(_))
+        @includes.paginate(page, pageLength, count, routes.EventController.index(_))
         <div class="row">
 
 
@@ -55,6 +55,6 @@
                 </div>
             }
         </div>
-        @includes.paginate(page, pageLength, count, routes.ImageController.index(_))
+        @includes.paginate(page, pageLength, count, routes.EventController.index(_))
     }
 }
