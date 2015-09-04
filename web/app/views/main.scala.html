@@ -1,3 +1,4 @@
+@import org.openguard.core.models._
 @(title: String)(content: Html)
 
 <!DOCTYPE html>
@@ -33,7 +34,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="@routes.EventController.index(1)">Home</a>
+                    <a class="navbar-brand" href="@routes.EventController.index(ALL_MEDIA,1)">Home</a>
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -41,9 +42,11 @@
                         <li>
                             <a href="#">calendar</a>
                         </li>
+
                         <li>
                             <a href="@routes.ReindexController.index">reimport</a>
                         </li>
+
                         <li>
                             <a href="#">config</a>
                         </li>

@@ -3,11 +3,11 @@
 # ~~~~
 
 # Home page
-GET     /                               controllers.EventController.index(page:Int=1)
-GET     /events/list/:page              controllers.EventController.index(page:Int)
-GET     /reindex                        controllers.ReindexController.index()
+GET        /                                    controllers.EventController.index(camera: String = ALL_CAMERAS, mediatype:String = ALL_MEDIA, page:Int = 1)
+GET        /events/list/:mediatype/:page        controllers.EventController.index(camera: String = ALL_CAMERAS, mediatype:String, page:Int)
+GET        /reindex                             controllers.ReindexController.index()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file                   controllers.Assets.versioned(path="/public", file: Asset)
+GET        /assets/*file                        controllers.Assets.versioned(path="/public", file: Asset)
 
-GET     /resources/*file                controllers.Resource.at(path="/resources", file)
+GET        /resources/*file                     controllers.Resource.at(path="/resources", file)

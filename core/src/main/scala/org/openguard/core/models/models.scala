@@ -6,4 +6,6 @@ package org.openguard.core
 package object models {
   val VIDEO  = "video"
   val IMAGE = "image"
+  val ALL_MEDIA = "allmedia"
+  val ALL_CAMERAS = "allcameras"
 }

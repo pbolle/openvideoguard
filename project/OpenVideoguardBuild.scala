@@ -33,6 +33,7 @@ object OpenVideoguardBuild extends Build {
   lazy val web = (project in file("web")).settings(
     name := "openvideoguard-web",
     routesGenerator := InjectedRoutesGenerator,
+    routesImport += "org.openguard.core.models._",
     resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases",
     libraryDependencies ++= Seq(
       specs2 % Test,

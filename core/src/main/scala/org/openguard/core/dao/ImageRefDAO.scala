@@ -2,12 +2,12 @@ package org.openguard.core.dao
 
 import java.sql.Timestamp
 
-import org.openguard.core.models.ImageRef
+import org.openguard.core.models._
 import play.api.Play
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfig}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import slick.driver.JdbcProfile
-import slick.lifted.TableQuery
+import slick.lifted.{CanBeQueryCondition, TableQuery}
 
 import scala.concurrent.Future
 
@@ -19,17 +19,33 @@ class ImageRefDAO extends HasDatabaseConfig[JdbcProfile] {
 
   def all(): Future[List[ImageRef]] = db.run(ImageRefs.result).map(_.toList)
 
-  def recent(page: Int, pageSize: Long): Future[List[ImageRef]] = {
-    db.run(ImageRefs.sortBy(_.uploadTime.desc).drop((page - 1) * pageSize).take(pageSize).result).map(_.toList)
+  def recent(mediatype : String, page: Int, pageSize: Long): Future[List[ImageRef]] = {
+
+    def createFilter(mediatype: String): slick.lifted.Query[ImageRefTable, ImageRef, Seq] = {
+      if (mediatype.equals(ALL_MEDIA)){
+        ImageRefs
+      } else {
+        ImageRefs.filter(_.mediatype === mediatype)
+      }
+    }
+    db.run(createFilter(mediatype).sortBy(_.uploadTime.desc).drop((page - 1) * pageSize).take(pageSize).result).map(_.toList)
   }
 
-  def count(): Future[Long] = {
-    db.run(ImageRefs.length.result).map(_.toLong)
+  def count(mediatype : String): Future[Long] = {
+    def createFilter(mediatype: String): slick.lifted.Query[ImageRefTable, ImageRef, Seq] = {
+      if (mediatype.equals(ALL_MEDIA)){
+        ImageRefs
+      } else {
+        ImageRefs.filter(_.mediatype === mediatype)
+      }
+    }
+    db.run(createFilter(mediatype).length.result).map(_.toLong)
   }
 
   def insert(imageRef: ImageRef) = {
     db.run(ImageRefs.insertOrUpdate(imageRef))
   }
+
 
   /**
    * Table Definition

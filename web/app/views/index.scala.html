@@ -1,5 +1,5 @@
 @import org.openguard.core.models._
-@(images: List[ImageRef],count: Long,page:Int, pageLength:Int)
+@(images: List[ImageRef],count: Long, mediatype:String, page:Int, pageLength:Int)
 @*
 * big 1280x720
 * smal 256x144
@@ -11,18 +11,32 @@
             <h1 class="page-header"> no event found </h1>
         </div>
     } else {
-        @includes.paginate(page, pageLength, count, routes.EventController.index(_))
+        @includes.paginate(mediatype, page, pageLength, count)
         <div class="row">
 
 
             <div class="col-lg-12">
                 <h4 class="page-header">@images.head.uploadTime.format("dd.MM.yyyy HH:mm") to @images.last.uploadTime.format("dd.MM.yyyy HH:mm") </h4>
 
-
-
                 <div class="btn-toolbar" role="toolbar">
+                    <!-- media -->
                     <div class="btn-group">
-                        <p>Camera:</p>
+                        <p>media:</p>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @mediatype <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="@routes.EventController.index(ALL_MEDIA, 1)">all</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="@routes.EventController.index(VIDEO, 1)">video</a></li>
+                            <li><a href="@routes.EventController.index(IMAGE, 1)">image</a></li>
+                        </ul>
+                    </div>
+                    <!-- camera -->
+                    <div class="btn-group">
+                        <p>camera:</p>
                     </div>
                     <div class="btn-group">
                         <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -35,7 +49,8 @@
                             <li><a href="#">cam2</a></li>
                             <li><a href="#">cam3</a></li>
                         </ul>
-                    </div><!-- /btn-group -->
+                    </div>
+                    <!-- count -->
                     <div class="btn-group pull-right">
                         <p>@count events</p>
                     </div>
@@ -55,6 +70,6 @@
                 </div>
             }
         </div>
-        @includes.paginate(page, pageLength, count, routes.EventController.index(_))
+        @includes.paginate(mediatype, page, pageLength, count)
     }
 }
