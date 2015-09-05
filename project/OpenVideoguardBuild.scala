@@ -40,7 +40,8 @@ object OpenVideoguardBuild extends Build {
       playSlick,
       playSlickEvolutions,
       h2,
-      bootstrap
+      bootstrap,
+      jquery
     )
   ).enablePlugins(PlayScala)
     .dependsOn(core)
