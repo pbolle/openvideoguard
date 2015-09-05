@@ -12,4 +12,5 @@ object Dependencies {
   val playSlick = "com.typesafe.play" %% "play-slick" % "1.0.0" withSources() withJavadoc()
   val playSlickEvolutions = "com.typesafe.play" %% "play-slick-evolutions" % "1.0.0" withSources() withJavadoc()
   val h2 = "com.h2database" % "h2" % "1.4.187"
+  val bootstrap = "org.webjars" % "bootstrap" % "3.3.5"
 }
