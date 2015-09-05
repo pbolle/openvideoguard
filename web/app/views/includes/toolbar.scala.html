@@ -1,0 +1,39 @@
+@import org.openguard.core.models._
+@(mediatype:String, count: Long)
+<div class="btn-toolbar" role="toolbar">
+        <!-- media -->
+    <div class="btn-group">
+        <p>media:</p>
+    </div>
+    <div class="btn-group">
+        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            @mediatype <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="@routes.EventController.index(ALL_MEDIA, 1)">all</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="@routes.EventController.index(VIDEO, 1)">video</a></li>
+            <li><a href="@routes.EventController.index(IMAGE, 1)">image</a></li>
+        </ul>
+    </div>
+        <!-- camera -->
+    <div class="btn-group">
+        <p>camera:</p>
+    </div>
+    <div class="btn-group">
+        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            all <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#">all</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">cam1</a></li>
+            <li><a href="#">cam2</a></li>
+            <li><a href="#">cam3</a></li>
+        </ul>
+    </div>
+        <!-- count -->
+    <div class="btn-group pull-right">
+        <p>@count events</p>
+    </div>
+</div>

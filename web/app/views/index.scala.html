@@ -7,9 +7,16 @@
 
 @main("Open Videoguard Index") {
     @if(images.isEmpty){
-        <div class="col-lg-12">
-            <h1 class="page-header"> no event found </h1>
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header"> no event found </h1>
+            </div>
         </div>
+        <div class="row">
+            <div class="col-lg-12">
+            @includes.toolbar(mediatype, count)
+            </div>
+         </div>
     } else {
         @includes.paginate(mediatype, page, pageLength, count)
         <div class="row">
@@ -17,46 +24,7 @@
 
             <div class="col-lg-12">
                 <h4 class="page-header">@images.head.uploadTime.format("dd.MM.yyyy HH:mm") to @images.last.uploadTime.format("dd.MM.yyyy HH:mm") </h4>
-
-                <div class="btn-toolbar" role="toolbar">
-                    <!-- media -->
-                    <div class="btn-group">
-                        <p>media:</p>
-                    </div>
-                    <div class="btn-group">
-                        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            @mediatype <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="@routes.EventController.index(ALL_MEDIA, 1)">all</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="@routes.EventController.index(VIDEO, 1)">video</a></li>
-                            <li><a href="@routes.EventController.index(IMAGE, 1)">image</a></li>
-                        </ul>
-                    </div>
-                    <!-- camera -->
-                    <div class="btn-group">
-                        <p>camera:</p>
-                    </div>
-                    <div class="btn-group">
-                        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            all <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">all</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">cam1</a></li>
-                            <li><a href="#">cam2</a></li>
-                            <li><a href="#">cam3</a></li>
-                        </ul>
-                    </div>
-                    <!-- count -->
-                    <div class="btn-group pull-right">
-                        <p>@count events</p>
-                    </div>
-                </div>
-
-
+                @includes.toolbar(mediatype, count)
             </div>
             @for(c <- images){
                 <div class="col-lg-2 col-md-3 col-xs-4 thumb">
