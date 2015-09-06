@@ -3,16 +3,18 @@ package org.openguard.core
 import java.util.{HashMap, Map}
 import javax.inject.{Inject, Provider, Singleton}
 
-import akka.actor.ActorSystem
+import akka.actor.{Props, ActorSystem}
 import org.apache.ftpserver.ftplet.Ftplet
 import org.apache.ftpserver.listener.ListenerFactory
 import org.apache.ftpserver.usermanager.ClearTextPasswordEncryptor
 import org.apache.ftpserver.usermanager.impl.DbUserManager
 import org.apache.ftpserver.{FtpServer, FtpServerFactory}
+import org.openguard.core.actor.{DeleteImage, Archive}
 import play.api.db.DBApi
 import play.api.inject.{Binding, Module}
 import play.api.{Configuration, Environment}
-
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import scala.concurrent.duration._
 /**
  * Created by pbolle on 12.07.15.
  */
@@ -70,6 +72,11 @@ object FTPApplication {
     // start the server
     server = serverFactory.createServer()
     server.start()
+
+    // start cronejob
+    // move to archive
+    var deleteImageActor = actorsystem.actorOf(Props[DeleteImage])
+    actorsystem.scheduler.schedule(5 seconds,5 minutes,deleteImageActor,new DeleteRule)
   }
 
   def stop() {
