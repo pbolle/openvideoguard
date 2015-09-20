@@ -7,7 +7,7 @@ import play.api.Play
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfig}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import slick.driver.JdbcProfile
-import slick.lifted.{CanBeQueryCondition, TableQuery}
+import slick.lifted.TableQuery
 
 import scala.concurrent.Future
 
@@ -19,10 +19,10 @@ class ImageRefDAO extends HasDatabaseConfig[JdbcProfile] {
 
   def all(): Future[List[ImageRef]] = db.run(ImageRefs.result).map(_.toList)
 
-  def recent(mediatype : String, page: Int, pageSize: Long): Future[List[ImageRef]] = {
+  def recent(mediatype: String, page: Int, pageSize: Long): Future[List[ImageRef]] = {
 
     def createFilter(mediatype: String): slick.lifted.Query[ImageRefTable, ImageRef, Seq] = {
-      if (mediatype.equals(ALL_MEDIA)){
+      if (mediatype.equals(ALL_MEDIA)) {
         ImageRefs
       } else {
         ImageRefs.filter(_.mediatype === mediatype)
@@ -31,9 +31,9 @@ class ImageRefDAO extends HasDatabaseConfig[JdbcProfile] {
     db.run(createFilter(mediatype).sortBy(_.uploadTime.desc).drop((page - 1) * pageSize).take(pageSize).result).map(_.toList)
   }
 
-  def count(mediatype : String): Future[Long] = {
+  def count(mediatype: String): Future[Long] = {
     def createFilter(mediatype: String): slick.lifted.Query[ImageRefTable, ImageRef, Seq] = {
-      if (mediatype.equals(ALL_MEDIA)){
+      if (mediatype.equals(ALL_MEDIA)) {
         ImageRefs
       } else {
         ImageRefs.filter(_.mediatype === mediatype)
@@ -44,6 +44,15 @@ class ImageRefDAO extends HasDatabaseConfig[JdbcProfile] {
 
   def insert(imageRef: ImageRef) = {
     db.run(ImageRefs.insertOrUpdate(imageRef))
+  }
+
+  def selectDeleteFrames(mediatype: String,startTime: Timestamp) = {
+    db.run(ImageRefs
+      .filter(_.mediatype === mediatype).filter(_.uploadTime <= startTime)
+      .groupBy(ir => (ir.year, ir.month, ir.day, ir.hour))
+      .map { case ((year, month, day, hour),group) => ((year, month, day, hour)) }
+      .result
+    ).map(_.toList)
   }
 
 

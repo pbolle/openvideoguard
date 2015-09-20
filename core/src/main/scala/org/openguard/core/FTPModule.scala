@@ -76,7 +76,8 @@ object FTPApplication {
     // start cronejob
     // move to archive
     var deleteImageActor = actorsystem.actorOf(Props[DeleteImage])
-    actorsystem.scheduler.schedule(5 seconds,5 minutes,deleteImageActor,new DeleteRule)
+    // minutes
+    actorsystem.scheduler.schedule(5 seconds,5 seconds,deleteImageActor,new DeleteRule)
   }
 
   def stop() {
