@@ -20,7 +20,7 @@ class DeleteImage extends Actor {
   def receive: Receive = {
     case photo: DeleteRule => {
       val startTime = LocalDateTime.now.minusDays(5).atZone(ZoneId.systemDefault()).toEpochSecond * 1000
-      var frames = imageRefDAO.selectDeleteFrames(IMAGE,new Timestamp(startTime))
+      var frames = imageRefDAO.selectDeleteFrames(IMAGE,new Timestamp(startTime),20)
 
       for(frame <- frames){
         println(frame)
