@@ -77,7 +77,7 @@ object FTPApplication {
     // move to archive
     var deleteImageActor = actorsystem.actorOf(Props[DeleteImage])
     // minutes
-    actorsystem.scheduler.schedule(5 seconds,5 seconds,deleteImageActor,new DeleteRule)
+    actorsystem.scheduler.schedule(10 seconds,1 hours,deleteImageActor,new DeleteRule)
   }
 
   def stop() {

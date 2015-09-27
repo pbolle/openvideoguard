@@ -46,15 +46,29 @@ class ImageRefDAO extends HasDatabaseConfig[JdbcProfile] {
     db.run(ImageRefs.insertOrUpdate(imageRef))
   }
 
-  def selectDeleteFrames(mediatype: String,startTime: Timestamp,maxEvents:Int) = {
+  def selectDeleteFrames(mediatype: String, startTime: Timestamp, maxEvents: Int) = {
     db.run(ImageRefs
       .filter(_.mediatype === mediatype).filter(_.uploadTime <= startTime)
       .groupBy(ir => (ir.year, ir.month, ir.day, ir.hour))
-      .map { case ((year, month, day, hour),group) => ((year, month, day, hour),group.map(_.imgPath).size) }
-      .filter{case ((year, month, day, hour), size) => size > maxEvents}
+      .map { case ((year, month, day, hour), group) => ((year, month, day, hour), group.map(_.imgPath).size) }
+      .filter { case ((year, month, day, hour), size) => size > maxEvents }
       .map(_._1)
       .result
     ).map(_.toList)
+  }
+
+  def findAllInFrame(frame: (Int, Int, Int, Int)): Future[List[ImageRef]] = {
+    db.run(ImageRefs
+      .filter(_.year === frame._1)
+      .filter(_.month === frame._2)
+      .filter(_.day === frame._3)
+      .filter(_.hour === frame._4)
+      .result
+    ).map(_.toList)
+  }
+
+  def delete(id: String) {
+    db.run(ImageRefs.filter(_.imgPath === id).delete)
   }
 
 
