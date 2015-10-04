@@ -22,31 +22,27 @@ class DeleteImage extends Actor {
 
   var homeDir = Play.configuration.getString("ftp.homedirectory").getOrElse("~/")
   val DROP_RATE: Int = 2;
-  val MAX_EVENS: Int = 20
-  val DELETE_AFTER_DAYS: Int = 14
 
   def receive: Receive = {
 
-    case photo: DeleteRule => {
-      val startTime = LocalDateTime.now.minusDays(DELETE_AFTER_DAYS).atZone(ZoneId.systemDefault()).toEpochSecond * 1000
-      var framesFuture = imageRefDAO.selectDeleteFrames(IMAGE, new Timestamp(startTime), MAX_EVENS)
+    case deleteRule: DeleteRule => {
+      val startTime = LocalDateTime.now.minusDays(deleteRule.delteAfterDays).atZone(ZoneId.systemDefault()).toEpochSecond * 1000
+      var framesFuture = imageRefDAO.selectDeleteFrames(IMAGE, new Timestamp(startTime), deleteRule.maxEvents)
 
       for {
         frames <- framesFuture
       } yield {
-        //works
-        //frame.foreach(println)
-        frames.map(imageRefDAO.findAllInFrame(_)).map(filterEventsInFrame)
+        frames.map(imageRefDAO.findAllInFrame(_)).map(filterEventsInFrame(_,deleteRule.dropRate))
       }
 
     }
   }
 
-  def filterEventsInFrame(eventsFuture: Future[List[ImageRef]]) = {
+  def filterEventsInFrame(eventsFuture: Future[List[ImageRef]],dropRate: Int) = {
     for {
       events <- eventsFuture
     } yield {
-      for (event <- events.grouped(DROP_RATE).map(_.head)) {
+      for (event <- events.grouped(dropRate).map(_.head)) {
         imageRefDAO.delete(event.imgPath)
         println(homeDir + event.thumbnailPath)
         deleteFile(event.thumbnailPath)

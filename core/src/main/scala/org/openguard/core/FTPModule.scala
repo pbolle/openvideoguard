@@ -3,18 +3,21 @@ package org.openguard.core
 import java.util.{HashMap, Map}
 import javax.inject.{Inject, Provider, Singleton}
 
-import akka.actor.{Props, ActorSystem}
+import akka.actor.{ActorSystem, Props}
 import org.apache.ftpserver.ftplet.Ftplet
 import org.apache.ftpserver.listener.ListenerFactory
 import org.apache.ftpserver.usermanager.ClearTextPasswordEncryptor
 import org.apache.ftpserver.usermanager.impl.DbUserManager
 import org.apache.ftpserver.{FtpServer, FtpServerFactory}
-import org.openguard.core.actor.{DeleteImage, Archive}
+import org.openguard.core.actor.DeleteImage
+import play.api.Play.current
 import play.api.db.DBApi
 import play.api.inject.{Binding, Module}
-import play.api.{Configuration, Environment}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import play.api.{Configuration, Environment, Play}
+
 import scala.concurrent.duration._
+
 /**
  * Created by pbolle on 12.07.15.
  */
@@ -30,12 +33,12 @@ object FTPApplication {
   var dbApi: DBApi = null
   var started = false
   var server: FtpServer = null
+  val DELETE_CRON_CONFIG_KEY = ""
 
   def start(): Unit = {
     // init AKKA
     implicit val actorsystem = ActorSystem("openvideoguard")
 
-    println("Start FTP Server")
     // init FTP
     val serverFactory: FtpServerFactory = new FtpServerFactory()
     val listenerFactory: ListenerFactory = new ListenerFactory()
@@ -46,11 +49,6 @@ object FTPApplication {
 
     serverFactory.addListener("default", listenerFactory.createListener())
 
-    //    val userManagerFactory: PropertiesUserManagerFactory = new PropertiesUserManagerFactory()
-
-    //    userManagerFactory.setUrl(getClass.getResource("/userManager.properties"))
-    //    userManagerFactory.setPasswordEncryptor(new ClearTextPasswordEncryptor())
-    //    val userManager: UserManager = userManagerFactory.createUserManager()
     val selectAllStmt = "SELECT userid FROM FTP_USER ORDER BY userid"
     val selectUserStmt = "SELECT userid, userpassword, homedirectory, enableflag, writepermission, idletime, uploadrate, downloadrate, maxloginnumber, maxloginperip FROM FTP_USER WHERE userid = '{userid}'"
     val insertUserStmt = "INSERT INTO FTP_USER (userid, userpassword, homedirectory, enableflag, writepermission, idletime, uploadrate,  downloadrate) VALUES ('{userid}', '{userpassword}', '{homedirectory}',  {enableflag}, {writepermission}, {idletime}, {uploadrate}, {downloadrate})"
@@ -76,8 +74,27 @@ object FTPApplication {
     // start cronejob
     // move to archive
     var deleteImageActor = actorsystem.actorOf(Props[DeleteImage])
-    // minutes
-    actorsystem.scheduler.schedule(10 seconds,1 hours,deleteImageActor,new DeleteRule)
+
+    /*
+        @TODO could this be easyer
+        for(deleterule <- Play.configuration.getList("ovg.crone.deleterules")){
+          println (deleterule.unwrapped().get(0).asInstanceOf[HashMap].get("dropRate"))
+        }
+    */
+    var i = 1
+    val playConf = Play.configuration
+    while (playConf.getInt("ovg.crone.deleterule." + i + ".dropRate").isDefined
+      && playConf.getInt("ovg.crone.deleterule." + i + ".maxEvents").isDefined
+      && playConf.getInt("ovg.crone.deleterule." + i + ".delteAfterDays").isDefined) {
+      val dropRate = playConf.getInt("ovg.crone.deleterule." + i + ".dropRate").get
+      val maxEvents = playConf.getInt("ovg.crone.deleterule." + i + ".maxEvents").get
+      val delteAfterDays = playConf.getInt("ovg.crone.deleterule." + i + ".delteAfterDays").get
+
+      actorsystem.scheduler.schedule(10 seconds, 1 hours, deleteImageActor, new DeleteRule(dropRate,maxEvents,delteAfterDays))
+
+      i = i + 1
+    }
+
   }
 
   def stop() {

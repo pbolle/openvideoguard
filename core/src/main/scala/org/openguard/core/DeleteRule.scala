@@ -1,10 +1,6 @@
 package org.openguard.core
 
-import java.util.concurrent.TimeUnit
-
 /**
- * Created by pbolle on 20.06.15.
+ * Object defines how to delete events/images/videos
  */
-class DeleteRule() {
-
-}
+class DeleteRule(val dropRate: Int,val maxEvents: Int,val delteAfterDays: Int)
