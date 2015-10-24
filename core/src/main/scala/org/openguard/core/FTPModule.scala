@@ -19,7 +19,7 @@ import play.api.{Configuration, Environment, Play}
 import scala.concurrent.duration._
 
 /**
- * Created by pbolle on 12.07.15.
+ * Module to initialise the FTP Server
  */
 class FTPModule() extends Module {
   override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] = {
@@ -43,8 +43,8 @@ object FTPApplication {
     val serverFactory: FtpServerFactory = new FtpServerFactory()
     val listenerFactory: ListenerFactory = new ListenerFactory()
 
-    listenerFactory.setPort(2221);
-    listenerFactory.setServerAddress("0.0.0.0")
+    listenerFactory.setPort(Play.configuration.getInt("ovg.ftpserver.port").getOrElse(2221));
+    listenerFactory.setServerAddress(Play.configuration.getString("ovg.ftpserver.serveraddress").getOrElse("0.0.0.0"))
     listenerFactory.setImplicitSsl(false);
 
     serverFactory.addListener("default", listenerFactory.createListener())
