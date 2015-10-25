@@ -25,7 +25,7 @@ CREATE TABLE FTP_USER (
   maxloginperip INT DEFAULT 0
 );
 
-INSERT INTO "FTP_USER" VALUES ('test','test','/home/pbolle/videobuard/ftproot',TRUE,TRUE,0,0,0,0,0);
+INSERT INTO "FTP_USER" VALUES ('test','test','${ftphome}',TRUE,TRUE,0,0,0,0,0);
 # --- !Downs
 
 DROP TABLE "IMAGEREF";

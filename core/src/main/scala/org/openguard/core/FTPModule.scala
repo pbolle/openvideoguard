@@ -7,9 +7,9 @@ import akka.actor.{ActorSystem, Props}
 import org.apache.ftpserver.ftplet.Ftplet
 import org.apache.ftpserver.listener.ListenerFactory
 import org.apache.ftpserver.usermanager.ClearTextPasswordEncryptor
-import org.apache.ftpserver.usermanager.impl.DbUserManager
 import org.apache.ftpserver.{FtpServer, FtpServerFactory}
 import org.openguard.core.actor.DeleteImage
+import org.openguard.core.ftp.UserManager
 import play.api.Play.current
 import play.api.db.DBApi
 import play.api.inject.{Binding, Module}
@@ -58,7 +58,7 @@ object FTPApplication {
     val isAdminStmt = "SELECT userid FROM FTP_USER WHERE userid='{userid}' AND userid='admin'"
     var adminName = "admin"
 
-    val userManager = new DbUserManager(dbApi.database("default").dataSource, selectAllStmt, selectUserStmt, insertUserStmt, updateUserStmt, deleteUserStmt, authenticateStmt, isAdminStmt, new ClearTextPasswordEncryptor(), adminName)
+    val userManager = new UserManager(dbApi.database("default").dataSource, selectAllStmt, selectUserStmt, insertUserStmt, updateUserStmt, deleteUserStmt, authenticateStmt, isAdminStmt, new ClearTextPasswordEncryptor(), adminName)
 
     // init ftplet
     val ftplets: Map[String, Ftplet] = new HashMap[String, Ftplet]
