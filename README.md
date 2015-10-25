@@ -1,5 +1,6 @@
 # Open Video Guard
 This is a open source platform for processing videos and pictures from cameras.
+![Open Video Guard overview](https://raw.githubusercontent.com/pbolle/openvideoguard/master/doc/ovg.png)
 
 ## Dependencies
 Open Video Guard is base on Scala, Akka and Play.
