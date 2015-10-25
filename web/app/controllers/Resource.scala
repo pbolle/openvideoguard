@@ -32,8 +32,8 @@ class Resource extends AssetsBuilder(LazyHttpErrorHandler) {
     else ""
 
   def at(path: String, file: String): Action[AnyContent] = Action { implicit request =>
-    var homeDir = Play.configuration.getString("ftp.homedirectory").getOrElse("~/")
-    var responseFile = new File(homeDir + file)
+    var homeDir = Play.configuration.getString("ovg.publicDirectory").getOrElse("~/")
+    var responseFile = new File(homeDir+ File.separator + file)
 
     if (!responseFile.canRead && responseFile.isDirectory) {
       NotFound

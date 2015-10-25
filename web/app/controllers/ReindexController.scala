@@ -13,7 +13,7 @@ class ReindexController @Inject()(system: ActorSystem) extends Controller {
 
   def index() = Action {
     var reindexActor = system.actorOf(Props[Reimport])
-    reindexActor ! Play.configuration.getString("ftp.homedirectory").getOrElse("~/")
+    reindexActor ! Play.configuration.getString("ovg.publicDirectory").getOrElse("~/")
     Redirect(controllers.routes.EventController.index(ALL_MEDIA, 1))
   }
 

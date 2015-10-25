@@ -20,7 +20,7 @@ import scala.reflect.io.File
 class DeleteImage extends Actor {
   def imageRefDAO = new ImageRefDAO
 
-  var homeDir = Play.configuration.getString("ftp.homedirectory").getOrElse("~/")
+  var homeDir = Play.configuration.getString("ovg.publicDirectory").getOrElse("~/")
   val DROP_RATE: Int = 2;
 
   def receive: Receive = {

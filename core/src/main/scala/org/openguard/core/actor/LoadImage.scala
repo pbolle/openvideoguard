@@ -25,7 +25,7 @@ class LoadImage extends Actor {
 
   val thumbnailWidth: Int = Play.configuration.getInt("ovg.img.thumbnail.width").getOrElse(256)
   val thumbnailHeight: Int = Play.configuration.getInt("ovg.img.thumbnail.heigth").getOrElse(144)
-  var homeDir = Play.configuration.getString("ftp.homedirectory").getOrElse("~/")
+  var homeDir = Play.configuration.getString("ovg.publicDirectory").getOrElse("~/")
   val formatDay = DateTimeFormatter.ofPattern("hh:mm:ss.SSS")
 
   def receive = {

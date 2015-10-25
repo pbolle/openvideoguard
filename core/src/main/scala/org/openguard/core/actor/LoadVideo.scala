@@ -22,7 +22,7 @@ import scala.sys.process._
 class LoadVideo extends Actor {
   def imageRefDAO = new ImageRefDAO
 
-  var homeDir = Play.configuration.getString("ftp.homedirectory").getOrElse("~/")
+  var homeDir = Play.configuration.getString("ovg.publicDirectory").getOrElse("~/")
   var tempDir = Play.configuration.getString("ovg.tempDir").getOrElse("~/temp")
   val formatDay = DateTimeFormatter.ofPattern("hh:mm:ss.SSS")
 
