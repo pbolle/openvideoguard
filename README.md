@@ -23,6 +23,7 @@ Start server with
 ```
 openvideoguard-web -DapplyEvolution.default=true 
 ```
+The default ftp user is username test password test. This can be changed in  openvideobuard/conf/evolutions/default/1.sql
 
 ## Aktor List
 List with all actors an it responsibility
