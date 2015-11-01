@@ -57,6 +57,15 @@ class ImageRefDAO extends HasDatabaseConfig[JdbcProfile] {
     ).map(_.toList)
   }
 
+  def selectEventsPerHour(mediatype: String) = {
+    db.run(ImageRefs
+      .filter(_.mediatype === mediatype)
+      .groupBy(ir => (ir.year, ir.month, ir.day, ir.hour))
+      .map { case ((year, month, day, hour), group) => (year, month, day, hour, group.map(_.imgPath).size) }
+      .result
+    ).map(_.toList)
+  }
+
   def findAllInFrame(frame: (Int, Int, Int, Int)): Future[List[ImageRef]] = {
     db.run(ImageRefs
       .filter(_.year === frame._1)

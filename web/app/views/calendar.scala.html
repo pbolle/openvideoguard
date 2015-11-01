@@ -1,12 +1,29 @@
-@()
+@(imageList: List[(Int, Int, Int, Int, Int)], videoList: List[(Int, Int, Int, Int, Int)])
 @main("Open Videoguard Calendar") {
     <script>
         $(document).ready(function() {
-
-            // page is now ready, initialize the calendar...
-
             $('#calendar').fullCalendar({
-                // put your options and callbacks here
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+			    },events: [
+                    @for((image,index) <- imageList.zipWithIndex){
+                        {
+                            title: 'image (@image._5) ',
+                            start: '@image._1-@image._2-@(image._3)T@image._4:00:00',
+                            end: '@image._1-@image._2-@(image._3)T@(image._4+1):00:00'
+                        }@if(index != imageList.size-1){,}
+                    }@if(imageList.size > 0 && videoList.size > 0){,}
+                    @for((video,index) <- videoList.zipWithIndex){
+                        {
+                            title: 'video (@video._5) ',
+                            color: 'red',
+                            start: '@video._1-@video._2-@(video._3)T@video._4:00:00',
+                            end: '@video._1-@video._2-@(video._3)T@(video._4+1):00:00'
+                        }@if(index != videoList.size-1){,}
+                    }
+			    ]
             })
 
         });
