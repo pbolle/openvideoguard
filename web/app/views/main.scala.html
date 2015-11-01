@@ -20,6 +20,10 @@
         <link href="@routes.Assets.versioned("stylesheets/lightbox.css")" rel="stylesheet">
         <!-- Custom CSS -->
         <link href="@routes.Assets.versioned("stylesheets/thumbnail-gallery.css")" rel="stylesheet">
+        <!-- fullcalendar CSS -->
+        <link href="@routes.Assets.versioned("lib/fullcalendar/fullcalendar.css")" rel="stylesheet">
+        <!-- jQuery -->
+        <script src="@routes.Assets.versioned("lib/jquery/jquery.min.js")"></script>
 
     </head>
     <body>
@@ -40,7 +44,7 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="#">calendar</a>
+                            <a href="@routes.CalendarController.index">calendar</a>
                         </li>
 
                         <li>
@@ -73,11 +77,13 @@
         </div>
         <!-- /.container -->
 
-        <!-- jQuery -->
-        <script src="@routes.Assets.versioned("lib/jquery/jquery.min.js")"></script>
         <!-- Bootstrap Core JavaScript -->
         <script src="@routes.Assets.versioned("lib/bootstrap/js/bootstrap.min.js")"></script>
         <!-- lightbox2 JavaScript -->
         <script src="@routes.Assets.versioned("javascripts/lightbox.js")"></script>
+        <!-- moment JavaScript -->
+        <script src="@routes.Assets.versioned("lib/momentjs/moment.js")"></script>
+        <!-- moment JavaScript -->
+        <script src="@routes.Assets.versioned("lib/fullcalendar/fullcalendar.js")"></script>
     </body>
 </html>

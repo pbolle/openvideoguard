@@ -14,4 +14,5 @@ object Dependencies {
   val h2 = "com.h2database" % "h2" % "1.4.187"
   val bootstrap = "org.webjars" % "bootstrap" % "3.3.5"
   val jquery = "org.webjars" % "jquery" % "1.11.3"
+  var calendar = "org.webjars" % "fullcalendar" % "2.4.0"
 }
