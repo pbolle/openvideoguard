@@ -13,6 +13,7 @@ import org.openguard.core.models._
 import play.api.Play
 import play.api.Play.current
 
+import scala.reflect.io.Path
 import scala.sys.process._
 
 
@@ -28,7 +29,8 @@ class LoadVideo extends Actor {
 
   def receive = {
     case videoPath: String => {
-      var tempImgDir = new File(tempDir + File.separator + "loadVideo_" + System.currentTimeMillis())
+      val tempImtPath = tempDir + File.separator + "loadVideo_" + System.currentTimeMillis()
+      var tempImgDir = new File(tempImtPath)
       if (!tempImgDir.exists) {
         tempImgDir.mkdirs
       }
@@ -72,6 +74,9 @@ class LoadVideo extends Actor {
         VIDEO
       )
       imageRefDAO.insert(imageRef)
+
+      // delete tempdir
+      Path(tempImgDir).deleteRecursively()
     }
     case _ => println("received unknown message")
   }

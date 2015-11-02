@@ -38,8 +38,8 @@ class LoadImage extends Actor {
       val photo = new Photo(image, imagePath)
       // move to archive
       var archiveActor = context.actorOf(Props[Archive])
-      //archiveActor ! photo
-      context.system.scheduler.scheduleOnce(5 minutes, archiveActor, photo)
+      archiveActor ! photo
+      //context.system.scheduler.scheduleOnce(5 minutes, archiveActor, photo)
 
       // create thumbnail
       val thumbnailImage = image.fit(thumbnailWidth, thumbnailHeight)
