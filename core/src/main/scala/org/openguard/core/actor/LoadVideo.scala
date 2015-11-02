@@ -77,6 +77,7 @@ class LoadVideo extends Actor {
 
       // delete tempdir
       Path(tempImgDir).deleteRecursively()
+      Path(videoPath).delete()
     }
     case _ => println("received unknown message")
   }
