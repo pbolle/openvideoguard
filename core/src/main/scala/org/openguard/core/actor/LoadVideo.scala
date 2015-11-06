@@ -25,7 +25,7 @@ class LoadVideo extends Actor {
 
   var homeDir = Play.configuration.getString("ovg.publicDirectory").getOrElse("~/")
   var tempDir = Play.configuration.getString("ovg.tempDir").getOrElse("~/temp")
-  val formatDay = DateTimeFormatter.ofPattern("hh:mm:ss.SSS")
+  val formatDay = DateTimeFormatter.ofPattern("HH:mm:ss.SSS")
 
   def receive = {
     case videoPath: String => {

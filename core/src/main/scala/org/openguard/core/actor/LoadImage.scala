@@ -26,7 +26,7 @@ class LoadImage extends Actor {
   val thumbnailWidth: Int = Play.configuration.getInt("ovg.img.thumbnail.width").getOrElse(256)
   val thumbnailHeight: Int = Play.configuration.getInt("ovg.img.thumbnail.heigth").getOrElse(144)
   var homeDir = Play.configuration.getString("ovg.publicDirectory").getOrElse("~/")
-  val formatDay = DateTimeFormatter.ofPattern("hh:mm:ss.SSS")
+  val formatDay = DateTimeFormatter.ofPattern("HH:mm:ss.SSS")
 
   def receive = {
     case imagePath: String => {

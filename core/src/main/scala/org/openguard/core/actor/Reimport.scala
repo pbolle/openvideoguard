@@ -11,7 +11,7 @@ import org.openguard.core.models._
  * Created by pbolle on 19.07.15.
  */
 class Reimport extends Actor {
-  val formatDay = new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS")
+  val formatDay = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
 
   def imageRefDAO = new ImageRefDAO
 
