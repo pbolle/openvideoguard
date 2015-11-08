@@ -25,7 +25,8 @@
                             title: 'video (@video._5) ',
                             color: 'red',
                             start: '@timestampFormat.format(video._1,video._2,video._3,video._4)',
-                            end: '@timestampFormat.format(video._1,video._2,video._3,video._4+1)'
+                            end: '@timestampFormat.format(video._1,video._2,video._3,video._4+1)',
+                            url: '@routes.EventController.fromDateIndex(timestampFormat.format(video._1,video._2,video._3,video._4), VIDEO, 0)'
                         }@if(index != videoList.size-1){,}
                     }
 			    ]
