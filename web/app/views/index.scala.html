@@ -1,5 +1,5 @@
 @import org.openguard.core.models._
-@(images: List[ImageRef],count: Long, mediatype:String, page:Int, pageLength:Int)
+@(time:String,images: List[ImageRef],count: Long, mediatype:String, page:Int, pageLength:Int)
 @*
 * big 1280x720
 * smal 256x144
@@ -18,7 +18,27 @@
             </div>
          </div>
     } else {
-        @includes.paginate(mediatype, page, pageLength, count)
+        @includes.paginate(time,mediatype, page, pageLength, count)
+        <div class="row">
+            <div class='col-sm-6'>
+                <div class="form-group">
+                    <div class='input-group date' id='datetimepicker2'>
+                        <input type='text' class="form-control" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker2').datetimepicker({
+                    locale: 'en',
+                    defaultDate: '@time'
+                });
+            });
+            </script>
+        </div>
         <div class="row">
 
 
@@ -38,6 +58,6 @@
                 </div>
             }
         </div>
-        @includes.paginate(mediatype, page, pageLength, count)
+        @includes.paginate(time, mediatype, page, pageLength, count)
     }
 }

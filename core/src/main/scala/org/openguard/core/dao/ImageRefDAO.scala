@@ -19,8 +19,8 @@ class ImageRefDAO extends HasDatabaseConfig[JdbcProfile] {
 
   def all(): Future[List[ImageRef]] = db.run(ImageRefs.result).map(_.toList)
 
-  def recent(mediatype: String, page: Int, pageSize: Long): Future[List[ImageRef]] = {
-
+  def recent(time:Timestamp,mediatype: String, page: Int, pageSize: Long): Future[List[ImageRef]] = {
+    // TODO refacture me
     def createFilter(mediatype: String): slick.lifted.Query[ImageRefTable, ImageRef, Seq] = {
       if (mediatype.equals(ALL_MEDIA)) {
         ImageRefs
@@ -28,10 +28,11 @@ class ImageRefDAO extends HasDatabaseConfig[JdbcProfile] {
         ImageRefs.filter(_.mediatype === mediatype)
       }
     }
-    db.run(createFilter(mediatype).sortBy(_.uploadTime.desc).drop((page - 1) * pageSize).take(pageSize).result).map(_.toList)
+    db.run(createFilter(mediatype).filter(_.uploadTime <= time).sortBy(_.uploadTime.desc).drop((page - 1) * pageSize).take(pageSize).result).map(_.toList)
   }
 
   def count(mediatype: String): Future[Long] = {
+    // TODO refacture me
     def createFilter(mediatype: String): slick.lifted.Query[ImageRefTable, ImageRef, Seq] = {
       if (mediatype.equals(ALL_MEDIA)) {
         ImageRefs

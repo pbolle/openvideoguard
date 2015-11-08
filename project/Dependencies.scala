@@ -15,4 +15,5 @@ object Dependencies {
   val bootstrap = "org.webjars" % "bootstrap" % "3.3.5"
   val jquery = "org.webjars" % "jquery" % "1.11.3"
   var calendar = "org.webjars" % "fullcalendar" % "2.4.0"
+  var datepimepicker = "org.webjars" % "Eonasdan-bootstrap-datetimepicker" % "4.15.35"
 }

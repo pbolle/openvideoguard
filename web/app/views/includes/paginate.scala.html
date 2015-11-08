@@ -1,4 +1,4 @@
-@(mediatype:String, page:Int, pageLength:Int, collectionLength:Long, bound:Int = 5)
+@(time:String, mediatype:String, page:Int, pageLength:Int, collectionLength:Long, bound:Int = 5)
 @lowbound() = @{
     ((page.toDouble / bound).floor * bound) toInt
 }
@@ -15,7 +15,7 @@
             @if(page == 1){
                 <li class="disabled"><a href="#">Previous</a></li>
             } else {
-                <li><a href="@routes.EventController.index(mediatype, page-1)">Previous</a></li>
+                <li><a href="@routes.EventController.fromDateIndex(time, mediatype, page-1)">Previous</a></li>
 
             }
 
@@ -23,30 +23,30 @@
                 <li class="disabled"><a href="#">&laquo;</a></li>
             } else {
                 @if(lowbound()-bound <= 0) {
-                    <li><a href=@routes.EventController.index(mediatype, 1)">&laquo;</a></li>
+                    <li><a href=@routes.EventController.fromDateIndex(time, mediatype, 1)">&laquo;</a></li>
                 } else {
-                    <li><a href="@routes.EventController.index(mediatype, lowbound()-bound)">&laquo;</a></li>
+                    <li><a href="@routes.EventController.fromDateIndex(time, mediatype, lowbound()-bound)">&laquo;</a></li>
                 }
             }
 
             @for(i <- lowbound().max(1) until page) {
-                <li><a href="@routes.EventController.index(mediatype, i)">@i</a></li>
+                <li><a href="@routes.EventController.fromDateIndex(time, mediatype, i)">@i</a></li>
             }
 
             <li class="active"><a href="#">@page</a></li>
 
             @for(i <- page+1 to highbound()) {
-                <li><a href="@routes.EventController.index(mediatype,  i)">@i</a></li>
+                <li><a href="@routes.EventController.fromDateIndex(time, mediatype,  i)">@i</a></li>
             }
 
             @if(highbound() * pageLength <= collectionLength && highbound() > page && page * pageLength != collectionLength) {
-                <li><a href="@routes.EventController.index(mediatype, highbound())">&raquo;</a></li>
+                <li><a href="@routes.EventController.fromDateIndex(time, mediatype, highbound())">&raquo;</a></li>
             } else {
                 <li class="disabled"><a href="#">&raquo;</a></li>
             }
 
             @if(page < highbound()) {
-                <li><a href="@routes.EventController.index(mediatype, page+1)">Next</a></li>
+                <li><a href="@routes.EventController.fromDateIndex(time, mediatype, page+1)">Next</a></li>
             } else {
                 <li class="disabled"><a href="#">Next</a></li>
 
