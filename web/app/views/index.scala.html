@@ -37,6 +37,12 @@
                     format : 'DD.MM.YYYY hh:mm',
                     defaultDate: '@time'
                 });
+                $('#datetimepicker2').on("dp.hide", function(e) {
+                    date = e.date.format('YYYY-MM-DD[T]HH:mm:ss');
+                    sampelUrl='@routes.EventController.fromDateIndex("2000-00-00T00:00:00", IMAGE, 0)';
+                    window.open(sampelUrl.replace('2000-00-00T00:00:00',date),"_self");
+                });
+
             });
             </script>
         </div>
