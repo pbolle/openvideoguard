@@ -12,7 +12,7 @@ import play.api.Play.current
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 import scala.concurrent.Future
-import scala.reflect.io.File
+import java.io.File
 
 /**
  * Created by pbolle on 20.06.15.
@@ -44,7 +44,6 @@ class DeleteImage extends Actor {
     } yield {
       for (event <- events.grouped(dropRate).map(_.head)) {
         imageRefDAO.delete(event.imgPath)
-        println(homeDir + event.thumbnailPath)
         deleteFile(event.thumbnailPath)
         deleteFile(event.imgPath)
       }
@@ -52,9 +51,12 @@ class DeleteImage extends Actor {
   }
 
   def deleteFile(filepath: String): AnyVal = {
-    var file = File(homeDir + File.separator + filepath)
+    var file = new File(homeDir + File.separator + filepath)
     if (file.exists) {
       file.delete()
+    }
+    if (file.getParentFile.listFiles().length == 0){
+      file.getParentFile.delete();
     }
   }
 
