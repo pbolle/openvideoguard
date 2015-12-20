@@ -52,7 +52,7 @@ class DeleteImage extends Actor {
   }
 
   def deleteFile(filepath: String): AnyVal = {
-    var file = File(homeDir + filepath)
+    var file = File(homeDir + File.separator + filepath)
     if (file.exists) {
       file.delete()
     }
