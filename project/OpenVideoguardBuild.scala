@@ -43,7 +43,8 @@ object OpenVideoguardBuild extends Build {
       bootstrap,
       jquery,
       calendar,
-      datepimepicker
+      datepimepicker,
+      videojs
     )
   ).enablePlugins(PlayScala)
     .dependsOn(core)
