@@ -1,74 +1,53 @@
 package org.openguard.core.actor
 
 import java.io.{File, FileInputStream}
-import java.sql.Timestamp
-import java.time.format.DateTimeFormatter
 import java.time.{LocalDate, LocalTime}
-import java.util.Date
 
 import akka.actor.{Actor, Props}
 import com.sksamuel.scrimage.Image
 import org.openguard.core.Photo
-import org.openguard.core.dao.ImageRefDAO
 import org.openguard.core.models._
 import play.api.Play
 import play.api.Play.current
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
-import scala.concurrent.duration._
+import scala.reflect.io.Path
 
 /**
  * Created by pbolle on 19.06.15.
  */
-class LoadImage extends Actor {
-  def imageRefDAO = new ImageRefDAO
+class LoadImage extends Actor with ConverterTrait {
 
   val thumbnailWidth: Int = Play.configuration.getInt("ovg.img.thumbnail.width").getOrElse(256)
   val thumbnailHeight: Int = Play.configuration.getInt("ovg.img.thumbnail.heigth").getOrElse(144)
-  var homeDir = Play.configuration.getString("ovg.publicDirectory").getOrElse("~/")
-  val formatDay = DateTimeFormatter.ofPattern("HH:mm:ss.SSS")
 
   def receive = {
     case imagePath: String => {
+      implicit val mediatype : String = IMAGE
+      implicit val localDate = LocalDate.now
+      implicit val now = LocalTime.now
+
       val stream = new FileInputStream(imagePath)
       val image = Image.fromStream(stream)
       stream.close()
 
       // crate image object with cam + time + name
       val photo = new Photo(image, imagePath)
-      // move to archive
-      var archiveActor = context.actorOf(Props[Archive])
-      archiveActor ! photo
-      //context.system.scheduler.scheduleOnce(5 minutes, archiveActor, photo)
 
       // create thumbnail
       val thumbnailImage = image.fit(thumbnailWidth, thumbnailHeight)
 
-      val localDate = LocalDate.now
-      var imgDir = new File(homeDir + File.separator + localDate)
-      if (!imgDir.exists) {
-        imgDir.mkdirs
-      }
-      val now = LocalTime.now
-      val timeStamp = formatDay.format(now);
+      val imgDir = createTargedDir(localDate)
+      val timeStamp = hourFormatHHMMssSSS.format(now);
 
       // write to file
       thumbnailImage.output(imgDir.getAbsolutePath + File.separator + "sm" + timeStamp + ".png")
       image.output(imgDir.getAbsolutePath + File.separator + timeStamp + ".png")
 
       // insert in db
-      var imageRef = new ImageRef(
-        localDate + File.separator + timeStamp + ".png",
-        localDate + File.separator + "sm" + timeStamp + ".png",
-        new Timestamp((new Date()).getTime),
-        localDate.getYear,
-        localDate.getMonthValue,
-        localDate.getDayOfMonth,
-        now.getHour,
-        IMAGE
-      )
-      imageRefDAO.insert(imageRef)
+      insertIntoDb( timeStamp + ".png","sm" + timeStamp + ".png")
+
       // clean up old data
+      Path(photo.path).delete()
     }
     case _ => println("received unknown message")
   }
