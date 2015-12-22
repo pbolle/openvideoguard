@@ -56,7 +56,9 @@
             @for(c <- images){
                 <div class="col-lg-2 col-md-3 col-xs-4 thumb">
                     @if(c.mediatype == VIDEO) {
-                        <img class="img-responsive thumbnail" src="/resources/@c.thumbnailPath" data-toggle="tooltip" data-placement="bottom" title="@c.uploadTime.format("dd MMMM yyyy HH:mm:ss")">
+                        <a href="@routes.VideoController.index(c.imgPath) " >
+                            <img class="img-responsive thumbnail" src="/resources/@c.thumbnailPath" data-toggle="tooltip" data-placement="bottom" title="@c.uploadTime.format("dd MMMM yyyy HH:mm:ss")">
+                        </a>
                     } else {
                         <a class="thumbnail" href="/resources/@c.imgPath" data-title="@c.uploadTime.format("dd MMMM yyyy HH:mm:ss")" data-lightbox="roadtrip" >
                             <img class="img-responsive" src="/resources/@c.thumbnailPath" data-toggle="tooltip" data-placement="bottom" title="@c.uploadTime.format("dd MMMM yyyy HH:mm:ss")">
