@@ -27,7 +27,7 @@ class DeleteImage extends Actor {
 
     case deleteRule: DeleteRule => {
       val startTime = LocalDateTime.now.minusDays(deleteRule.delteAfterDays).atZone(ZoneId.systemDefault()).toEpochSecond * 1000
-      var framesFuture = imageRefDAO.selectDeleteFrames(IMAGE, new Timestamp(startTime), deleteRule.maxEvents)
+      var framesFuture = imageRefDAO.selectDeleteFrames(deleteRule.mediaType, new Timestamp(startTime), deleteRule.maxEvents)
 
       for {
         frames <- framesFuture

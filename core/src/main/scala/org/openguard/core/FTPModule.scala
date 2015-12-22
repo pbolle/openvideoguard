@@ -89,8 +89,9 @@ object FTPApplication {
       val dropRate = playConf.getInt("ovg.crone.deleterule." + i + ".dropRate").get
       val maxEvents = playConf.getInt("ovg.crone.deleterule." + i + ".maxEvents").get
       val delteAfterDays = playConf.getInt("ovg.crone.deleterule." + i + ".delteAfterDays").get
+      val mediaType = playConf.getString("ovg.crone.deleterule." + i + ".mediaType").get
 
-      actorsystem.scheduler.schedule(10 seconds, 1 hours, deleteImageActor, new DeleteRule(dropRate,maxEvents,delteAfterDays))
+      actorsystem.scheduler.schedule(10 seconds, 1 hours, deleteImageActor, new DeleteRule(dropRate,maxEvents,delteAfterDays,mediaType))
 
       i = i + 1
     }
