@@ -1,0 +1,13 @@
+@import org.openguard.core.models._
+@(image:ImageRef)
+@*
+* videoSize 1280x720
+*@
+
+@main("Open Videoguard Video") {
+    <div class="row">
+        <div class="col-lg-12">
+            <img class="img-responsive" src="/resources/@image.imgPath" data-toggle="tooltip" data-placement="bottom" title="@image.uploadTime.format("dd MMMM yyyy HH:mm:ss")">
+        </div>
+    </div>
+}
