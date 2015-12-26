@@ -9,6 +9,7 @@ import org.openguard.core.Photo
 import org.openguard.core.models._
 import play.api.Play
 import play.api.Play.current
+import play.api.libs.iteratee._
 
 import scala.reflect.io.Path
 
@@ -48,6 +49,18 @@ class LoadImage extends Actor with ConverterTrait {
 
       // clean up old data
       Path(photo.path).delete()
+
+      UpdateWebSocketActor.notifyActors(localDate + File.separator + timeStamp + ".png")
+/*
+      var updateWebSocketActor = context.actorOf(Props[UpdateWebSocketActor])
+      updateWebSocketActor ! localDate + File.separator + timeStamp + ".png"
+*/
+
+/*
+      val (out, channel) = Concurrent.broadcast[String]
+      channel.push(timeStamp + ".png")
+*/
+
     }
     case _ => println("received unknown message")
   }

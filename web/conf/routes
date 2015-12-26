@@ -3,15 +3,16 @@
 # ~~~~
 
 # Home page
-GET        /                                                    controllers.EventController.index(camera: String = ALL_CAMERAS, mediatype:String = ALL_MEDIA, page:Int = 1)
-GET        /events/list/:mediatype/:page                        controllers.EventController.index(camera: String = ALL_CAMERAS, mediatype:String, page:Int)
-GET        /events/fromDateList/:time/:mediatype/:page          controllers.EventController.fromDateIndex(time:String, camera: String = ALL_CAMERAS, mediatype:String, page:Int)
-GET        /reindex                                             controllers.ReindexController.index()
-GET        /calendar                                            controllers.CalendarController.index()
-GET        /video/*file                                         controllers.VideoController.index(file: String)
-GET        /live                                                controllers.LiveController.index()
+GET        /                                                  controllers.EventController.index(camera: String = ALL_CAMERAS, mediatype:String = ALL_MEDIA, page:Int = 1)
+GET        /events/list/:mediatype/:page                      controllers.EventController.index(camera: String = ALL_CAMERAS, mediatype:String, page:Int)
+GET        /events/fromDateList/:time/:mediatype/:page        controllers.EventController.fromDateIndex(time:String, camera: String = ALL_CAMERAS, mediatype:String, page:Int)
+GET        /reindex                                           controllers.ReindexController.index()
+GET        /calendar                                          controllers.CalendarController.index()
+GET        /video/*file                                       controllers.VideoController.index(file: String)
+GET        /live                                              controllers.LiveController.index()
+GET        /wsupdate                                          controllers.LiveController.update()
 
 # Map static resources from the /public folder to the /assets URL path
-GET        /assets/*file                                        controllers.Assets.versioned(path="/public", file: Asset)
+GET        /assets/*file                                      controllers.Assets.versioned(path="/public", file: Asset)
 
-GET        /resources/*file                                     controllers.Resource.at(path="/resources", file)
+GET        /resources/*file                                   controllers.Resource.at(path="/resources", file)
