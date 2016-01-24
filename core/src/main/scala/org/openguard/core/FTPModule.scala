@@ -56,7 +56,7 @@ object FTPApplication {
     val deleteUserStmt = "DELETE FROM FTP_USER WHERE userid = '{userid}'"
     val authenticateStmt = "SELECT userpassword from FTP_USER WHERE userid='{userid}'"
     val isAdminStmt = "SELECT userid FROM FTP_USER WHERE userid='{userid}' AND userid='admin'"
-    var adminName = "admin"
+    val adminName = "admin"
 
     val userManager = new UserManager(dbApi.database("default").dataSource, selectAllStmt, selectUserStmt, insertUserStmt, updateUserStmt, deleteUserStmt, authenticateStmt, isAdminStmt, new ClearTextPasswordEncryptor(), adminName)
 

@@ -31,7 +31,7 @@ class Reimport extends Actor {
       val date = formatDay.parse(subDir.getName + " " + timeStamp)
 
       // insert in db
-      var imageRef = new ImageRef(
+      val imageRef = new ImageRef(
         subDir.getName + File.separator + file.getName,
         subDir.getName + File.separator + "sm" + file.getName,
         new Timestamp(date.getTime),
@@ -52,7 +52,7 @@ class Reimport extends Actor {
       val date = formatDay.parse(subDir.getName + " " + timeStamp)
 
       // insert in db
-      var imageRef = new ImageRef(
+      val imageRef = new ImageRef(
         subDir.getName + File.separator + file.getName,
         subDir.getName + File.separator  + "sm" + timeStamp + ".gif",
         new Timestamp(date.getTime),

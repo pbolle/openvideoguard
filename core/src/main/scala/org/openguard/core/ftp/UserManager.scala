@@ -16,8 +16,8 @@ class UserManager(dataSource: DataSource, selectAllStmt: String,
 
   @throws(classOf[FtpException])
   override def getUserByName(name: String): User = {
-    var user = super.getUserByName(name)
-    var baseuser = new BaseUser;
+    val user = super.getUserByName(name)
+    val baseuser = new BaseUser;
     baseuser.setAuthorities(user.getAuthorities())
     baseuser.setEnabled(user.getEnabled)
     baseuser.setHomeDirectory(user.getHomeDirectory.replace("${ftphome}", Play.configuration.getString("ovg.ftpDirectory").getOrElse("~/")))

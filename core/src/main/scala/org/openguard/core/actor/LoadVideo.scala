@@ -23,7 +23,7 @@ class LoadVideo extends Actor with ConverterTrait {
       implicit val now = LocalTime.now
       val timeStamp = hourFormatHHMMssSSS.format(now);
 
-      var tempImgDir = createTempDirectory()
+      val tempImgDir = createTempDirectory()
 
       // convert movie to pictures
       val toImagesCommand = "avconv -i " + videoPath + " -r 1 -ss 00:00:05 -t 00:01:03 -f image2 " + tempImgDir + File.separator + "lva%04d.png"
